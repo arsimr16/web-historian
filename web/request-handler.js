@@ -1,5 +1,6 @@
 var path = require('path');
 var archive = require('../helpers/archive-helpers');
+var fs = require('fs');
 // require more modules/folders here!
 
 var headers = {
@@ -12,10 +13,21 @@ var headers = {
 
 exports.handleRequest = function (req, res) {
   if (req.method === 'GET') {
-    var baseUrl = path.paths.siteAssets();
-    var endUrl = req.url;
-    var url = baseUrl + endUrl;
-    res.writeHead(200, headers);
-    res.end(url);
+    var baseUrl = archive.paths.siteAssets;
+    var url = baseUrl + req.url + 'index.html';
+    fs.readFile(url, (err, data) => {
+      if (err) {
+        res.writeHead(404, headers);
+        res.end(data);
+      } else {
+        res.writeHead(200, headers);
+        res.end(data); 
+      }
+    });
+    //res.writeHead(200, headers);
+    //res.end(url); 
+    
   }
+
+  
 };
