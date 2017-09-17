@@ -43,6 +43,10 @@ exports.handleRequest = function (req, res) {
   }
 
   if (req.method === 'POST') {
-    
+    //  read list of urls
+      //  is url in list
+        //  if it is return
+        //  if not, add to list
+          
   }
 };

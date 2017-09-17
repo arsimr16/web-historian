@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var http = require('http');
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -35,11 +36,6 @@ exports.readListOfUrls = function(callback) {
     data = data.split('\n');
     return callback(data);
   });
-    // return a whole file
-  // run callback on the whole file
-  
-  // for each item in url list
-  // calls callback on each item 
   
 };
 
@@ -57,43 +53,53 @@ exports.isUrlInList = function(url, callback) {
     }
     return callback(false);
   });
-  
-  //  returns a boolean
-  //  if false, run callback (addUrlToList)
-  //  if true, run call
+
 };
 
 exports.addUrlToList = function(url, callback) {
-  //  add newline character
-    //  add url
+
   fs.appendFile(exports.paths.list, '\n' + url, (err) => {
     if (err) {
       console.log('hey try again to add me to file', err);
     }
+    callback();
   });
-  callback();
   
 };
 
 exports.isUrlArchived = function(url, callback) {
-  //  find the archives folder
+
   fs.readdir(exports.paths.archivedSites, (err, files) => {
     if (err) {
       console.log('ohhhhhh nooooooo', err);
     }
-    console.log('looooooooooooooooooooook', files);
+    //console.log('looooooooooooooooooooook', files);
     for (var i = 0; i < files.length; i++) {
       if (files[i] === url) {
-        callback(true);
+        return callback(true);
       }
     }
-    //  loop through folder and check against url
-      //  if it does, callback(true)
-      //  callback(false)
-    callback(false);
+    return callback(false);
   });
   
 };
 
 exports.downloadUrls = function(urls) {
+  console.log('Urls abt to download', urls);
+  for (var i = 0; i < urls.length; i++) {
+    var iffe = function(i) {
+      http.get('http://' + urls[i], (res) => {
+        console.log('-------------------------------', urls[i], i);
+        fs.appendFile(exports.paths.archivedSites + '/' + urls[i], res.body, (err) => {
+          if (err) {
+            console.log('hahah try again some other time', err);
+          }
+        });
+      });
+
+    }(i);
+  } 
+  // fs.readdir(exports.paths.archivedSites, (err, files) => {
+  //   if (err) {}
+  // }
 };
