@@ -52,27 +52,27 @@ describe('server', function() {
       });
     });
 
-    // describe('POST', function () {
-    //   it('should append submitted sites to \'sites.txt\'', function(done) {
-    //     var url = 'www.example.com';
+    describe('POST', function () {
+      it('should append submitted sites to \'sites.txt\'', function(done) {
+        var url = 'www.example.com';
 
-    //     // Reset the test file and process request
-    //     fs.closeSync(fs.openSync(archive.paths.list, 'w'));
+        // Reset the test file and process request
+        fs.closeSync(fs.openSync(archive.paths.list, 'w'));
 
-    //     request
-    //       .post('/')
-    //       .type('form')
-    //       .send({ url: url })
-    //       .expect(302, function (err) {
-    //         if (!err) {
-    //           var fileContents = fs.readFileSync(archive.paths.list, 'utf8');
-    //           expect(fileContents).to.equal(url + '\n');
-    //         }
+        request
+          .post('/')
+          .type('form')
+          .send({ url: url })
+          .expect(302, function (err) {
+            if (!err) {
+              var fileContents = fs.readFileSync(archive.paths.list, 'utf8');
+              expect(fileContents).to.equal(url + '\n');
+            }
 
-    //         done(err);
-    //       });
-    //   });
-    // });
+            done(err);
+          });
+      });
+    });
   });
 });
 

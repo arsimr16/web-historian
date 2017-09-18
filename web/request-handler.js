@@ -43,10 +43,66 @@ exports.handleRequest = function (req, res) {
   }
 
   if (req.method === 'POST') {
-    //  read list of urls
-      //  is url in list
-        //  if it is return
-        //  if not, add to list
-          
+      
+    var reqData = [];
+    req.on('data', (chunk) => {
+      reqData.push(chunk);
+    });
+    req.on('end', () => {
+      var urlString = reqData.toString().slice(4);
+      
+      archive.isUrlArchived(urlString, (boolean) => {
+        if (boolean) {
+          fs.readFile(archive.paths.archivedSites + '/' + urlString, (err, file) => {
+            if (err) {
+              console.log('error', err);
+            } else {
+              res.writeHead(302, headers);
+              res.end(file.toString());
+            }
+          });
+        } else {
+          archive.isUrlInList(urlString, (boolean) => {
+            if (boolean) {
+              fs.readFile(archive.paths.siteAssets + '/loading.html', (err, file) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  res.writeHead(302, headers);
+                  res.end(file.toString());
+                }
+              });
+            } else {
+              archive.addUrlToList(urlString, () => {
+                fs.readFile(archive.paths.siteAssets + '/loading.html', (err, file) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    res.writeHead(302, headers);
+                    res.end(file.toString());
+                  }
+                });
+              });
+            }
+          });
+        }
+      });
+
+
+
+
+    });
+
+     
   }
 };
+
+
+
+
+
+
+
+
+
+
