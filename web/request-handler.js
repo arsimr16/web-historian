@@ -1,7 +1,6 @@
 var path = require('path');
 var archive = require('../helpers/archive-helpers');
 var fs = require('fs');
-// require more modules/folders here!
 
 var headers = {
   'access-control-allow-origin': '*',
@@ -29,8 +28,6 @@ exports.handleRequest = function (req, res) {
     }
    
     fs.readFile(url, (err, data) => {
-      console.log('url!!!!!!!!!1', url);
-      
       if (err) {
         res.writeHead(404, headers);
         res.end(data);

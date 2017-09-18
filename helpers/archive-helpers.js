@@ -26,8 +26,7 @@ exports.initialize = function(pathsObj) {
 // The following function names are provided to you to suggest how you might
 // modularize your code. Keep it clean!
 
-exports.readListOfUrls = function(callback) {
-  //  read file 
+exports.readListOfUrls = function(callback) { 
   fs.readFile(exports.paths.list, (err, data) => {
     if (err ) {
       console.log('ooops', err);
@@ -45,7 +44,6 @@ exports.isUrlInList = function(url, callback) {
       console.log('try again', err);
     }
     data = data.toString().split('\n');
-    console.log('check me out i should be an array', data);
     for (var i = 0; i < data.length; i++) {
       if (data[i] === url) {
         return callback(true);
@@ -73,7 +71,6 @@ exports.isUrlArchived = function(url, callback) {
     if (err) {
       console.log('ohhhhhh nooooooo', err);
     }
-    //console.log('looooooooooooooooooooook', files);
     for (var i = 0; i < files.length; i++) {
       if (files[i] === url) {
         return callback(true);
@@ -89,7 +86,6 @@ exports.downloadUrls = function(urls) {
   for (var i = 0; i < urls.length; i++) {
     var iffe = function(i) {
       http.get('http://' + urls[i], (res) => {
-        console.log('-------------------------------', urls[i], i);
         fs.appendFile(exports.paths.archivedSites + '/' + urls[i], res.body, (err) => {
           if (err) {
             console.log('hahah try again some other time', err);
@@ -99,7 +95,4 @@ exports.downloadUrls = function(urls) {
 
     }(i);
   } 
-  // fs.readdir(exports.paths.archivedSites, (err, files) => {
-  //   if (err) {}
-  // }
 };
