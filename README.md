@@ -1,6 +1,8 @@
 # web-historian
 This is a project I completed as a student at [hackreactor](http://hackreactor.com). This project was worked on with a pair.
 
+![example](https://cloud.githubusercontent.com/assets/15180/5589668/36101fae-90d9-11e4-9011-c86b30b1458f.gif)
+
 In this sprint, you'll rewrite part of [archive.org](https://archive.org/), a web service that archives sites on the internet. Your version will allow users to submit a URL, and you'll archive it (by getting a copy of that website off of the internet and writing it to a local text file) and show them your copy.
 
 This sprint continues a trend towards your relying more and more on already existing software and writing code that ties together a variety of application components.
